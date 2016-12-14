@@ -7,7 +7,8 @@
 
   // Log error in php_error.log file /Applications/MAMP/logs/php_error.log file
   if(! isset($_GET['id']))
-    logErrorInDB("Template parameter NOT set ID:00x00", "The variable _GET[id] is not set. There is error in the parameter id");
+    logErrorInDB("Template parameter NOT set ID:00x00",
+        "The variable _GET[id] is not set. There is error in the parameter id");
 
   $sql = "SELECT * FROM EmailMsg WHERE id = ? AND status = ?";
   $stmt = $pdo->prepare($sql);
@@ -17,7 +18,8 @@
   $result = $stmt->fetch();
 
   if(! $result)
-    logErrorInDB("Email Template data is not available RS:00x$_GET[id]", "The results set retured empty row reason data deleted. Another reason could be the temaplte id is not Active(ie Deleted).");
+    logErrorInDB("Email Template data is not available RS:00x$_GET[id]",
+        "The results set retured empty row reason data deleted. Another reason could be the temaplte id is not Active(ie Deleted).");
 
   // Get the current SMTP settings
   var_dump(ini_get("SMTP"));
