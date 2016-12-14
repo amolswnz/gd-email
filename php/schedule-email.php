@@ -48,6 +48,6 @@
   $stmt = $pdo->prepare($sql);
   $stmt->bindValue(1, $_POST['templateId']);
   $stmt->bindValue(2, $_POST['title']);
-  $stmt->bindValue(3, "$curlString $outputFile $errorLogFile");
+  $stmt->bindValue(3, "$curlScheduleString $curlString $outputFile $errorLogFile");
   $stmt->execute();
   echo json_encode(array("SUCCESS", "Email job scheduled"));
