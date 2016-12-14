@@ -22,7 +22,7 @@
           <form class="form" action="php/save-template.php" method="post">
             <input type="text" class="form-control" name="templateName" placeholder="Template name">
             <br>
-            <input type="text" class="form-control" name="subject" placeholder="Email subject">
+            <input type="text" class="form-control" name="subject" maxlength="40" placeholder="Email subject">
             <br>
             <textarea class="form-control" rows="13" name="msgBody"></textarea>
             <br>
