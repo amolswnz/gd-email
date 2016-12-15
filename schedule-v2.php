@@ -29,19 +29,21 @@
           <a href="#" style="display:none" class="btn btn-danger deleteAction">Delete this Action</a>
           <div class="form-group">
             <label for="textVersion_1">Select timeframes</label>
-            <input type="text" class="form-control" id="textVersion_1" name="textVersion_1" placeholder="Timeframe to send">
-            <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
-          </div>
-          <div class="form-group">
-            <label for="dateVersion_1">OR</label>
-            <input type="datetime-local" class="form-control" id="dateVersion_1" name="dateVersion_1" placeholder="datetime">
-            <p class="help-block">Set custom date and time</p>
+            <div class="row">
+              <div class="col-xs-6">
+                <input type="text" class="form-control" id="textVersion_1" name="textVersion_1" placeholder="Timeframe to send">
+                <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
+              </div>
+              <div class="col-xs-6">
+              <input type="datetime-local" class="form-control" id="dateVersion_1" name="dateVersion_1" placeholder="datetime">
+              <p class="help-block">Set custom date and time</p>
+            </div>
+            </div>
           </div>
           <div class="form-group" id="textVersionWrtPrevActionDiv_1">
             <label for="textVersionWrtPrevAction_1">OR</label>
-            <input type="text" class="form-control" id="textVersionWrtPrevAction_1" name="textVersionWrtPrevAction_1" placeholder="datetime">
-            <p class="help-block">Set time wrt previous action</p>
-            <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
+            <input type="text" class="form-control" id="textVersionWrtPrevAction_1" name="textVersionWrtPrevAction_1" placeholder="Timeframe with resepect to previous date selected">
+            <p class="help-block">Set time wrt previous action - eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
           </div>
 
           <div class="form-group">
@@ -67,7 +69,7 @@
               </label>
             </div>
             <div class="form-group" id="reminderTextDiv_1">
-              <label for="reminderText_1">Compose your remider email</label>
+              <label for="reminderText_1">Compose your reminder email</label>
               <textarea class="form-control" rows="13" id="reminderText_1" name="reminderText_1"></textarea>
             </div>
           </div>
@@ -89,9 +91,9 @@
 
     $(document).ready(function() {
       // Hiding with respect to div - for first entry it is Not Applicabale
-      // $("#textVersionWrtPrevActionDiv_1").hide();
+      $("#textVersionWrtPrevActionDiv_1").hide();
       // Initially reminder textarea div is hidden unless clicked on remind me checkbox
-      // $("#reminderTextDiv_1").hide();
+      $("#reminderTextDiv_1").hide();
     });
 
     // Create new set of form inputs, if additional action is added
@@ -102,15 +104,8 @@
       // Create copy of repeatingFormGroup
       var newSection = repeatingFormGroup.clone();
       // Insert this into the DOM
-      newSection.insertAfter(repeatingFormGroup)
-            .hide().show('slow')
-            ;
-
-
-            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-
-
-
+      newSection.insertAfter(repeatingFormGroup).hide().show('slow');
+      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
 
       // Change the names of each input, select and div so as to distinguish the fields
       newSection.find("input, select, textarea").each( function (index, element) {
@@ -148,6 +143,7 @@
     $(document).on('click','[id^=sendReminder]',function() {
       var thisId = $(this).attr('id').match(/\d+$/)[0];
       $("#reminderTextDiv_" +  thisId).slideToggle('slow');
+      $("html, body").animate({ scrollTop: $(this).height() }, "slow");
     });
   </script>
 </body>
