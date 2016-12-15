@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-sm-6">
         <h1>Schedule email timeframe</h1>
-        <form class="form-horizontal" action="php/schedule-email.php" method="post" id="frm">
+        <form class="form-horizontal" action="php/xschedule-email.php" method="post" id="frm">
           <div class="form-group">
             <label for="title"></label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Schedule title">
@@ -90,15 +90,36 @@
     $("#textVersionWrtPrevActionDiv_1").hide();
     $("#reminderTextDiv_1").hide();
   });
-    $("#sendReminder_1").change(function() {
-      $("[id^=reminderTextDiv]").slideToggle('slow');
-    });
+    //
+    // $("form").submit(function(event) {
+    //   event.preventDefault();
+    //   $.ajax({
+    //     url: 'php/x.php',
+    //     type: 'POST',
+    //     dataType: 'json',
+    //     data: $("form").serializeArray()
+    //   })
+    //   .done(function() {
+    //     console.log("success");
+    //   })
+    //   .fail(function() {
+    //     console.log("error");
+    //   })
+    //   .always(function() {
+    //     console.log("complete");
+    //   });
+    //
+    // });
+    //
+    //
     $(".addAction").click(function(event) {
       var currentCount =  $('.repeatingSection').length;
       var newCount = currentCount+1;
       var lastRepeatingGroup = $('.repeatingSection').last();
       var newSection = lastRepeatingGroup.clone();
+
       newSection.insertAfter(lastRepeatingGroup);
+
       newSection.find("input").each( function (index, input) {
         input.id = input.id.replace("_" + currentCount, "_" + newCount);
         input.name = input.name.replace("_" + currentCount, "_" + newCount);
@@ -107,12 +128,32 @@
         input.id = input.id.replace("_" + currentCount, "_" + newCount);
         input.name = input.name.replace("_" + currentCount, "_" + newCount);
       });
-
-      $('*[id*=_'+currentCount+']').each(function() {
-          console.log($(this).attr('id'));
+      newSection.find("div").each( function (index, input) {
+        input.id = input.id.replace("_" + currentCount, "_" + newCount);
       });
 
+          // newSection.find("*").each( function(index, element) {
+          //   console.log(element);
+          // });
 
+      // $('*[id*=_'+currentCount+']').each(function() {
+      //     thisId = $(this).attr('id');
+      //     newId = thisId.replace("_" + currentCount, "_" + newCount);
+      //     console.log(newId);
+      //     // console.log($(this).attr('id'));
+      //     $(this).attr('id', newId);
+      // });
+      // $('*[name*=_'+currentCount+']').each(function() {
+      //     thisId = $(this).attr('name');
+      //     newId = thisId.replace("_" + currentCount, "_" + newCount);
+      //     console.log(newId);
+      //     // console.log($(this).attr('id'));
+      //     $(this).attr('name', newId);
+      // });
+      v  = "#textVersionWrtPrevActionDiv_" + newCount;
+      console.log(v, $(v));
+      $(v).show();
+      $(".deleteAction").show();
       // newSection.find("#textVersionWrtPrevActionDiv_" + currentCount;
 
       // $('.repeatingSection').last().find('a').show();
@@ -133,12 +174,17 @@
       return false;
     });
 
-    // Delete a repeating section
+    // Delete a section
     $(document).on('click','.deleteAction',function(){
         $(this).parent('div').remove();
         return false;
     });
 
+    $(document).on('click','[id^=sendReminder]',function(){
+      var thisId = $(this).attr('id').match(/\d+$/)[0]
+      console.log( thisId );
+      $("#reminderTextDiv_" +  thisId).slideToggle('slow');
+    });
   </script>
 </body>
 </html>
