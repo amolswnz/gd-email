@@ -24,20 +24,29 @@
             <label for="title"></label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Schedule title">
           </div>
+        <div class="repeatingSection">
+          <hr>
+          <a href="#" style="display:none" class="btn btn-danger deleteAction">Delete this Action</a>
           <div class="form-group">
-            <label for="textVersion"></label>
-            <input type="text" class="form-control" id="textVersion" name="textVersion" placeholder="Timeframe to send">
+            <label for="textVersion_1">Select timeframes</label>
+            <input type="text" class="form-control" id="textVersion_1" name="textVersion_1" placeholder="Timeframe to send">
             <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
           </div>
-          OR
           <div class="form-group">
-            <label for="dateVersion"></label>
-            <input type="datetime-local" class="form-control" id="dateVersion" name="dateVersion" placeholder="datetime">
+            <label for="dateVersion_1">OR</label>
+            <input type="datetime-local" class="form-control" id="dateVersion_1" name="dateVersion_1" placeholder="datetime">
             <p class="help-block">Set custom date and time</p>
           </div>
+          <div class="form-group" id="textVersionWrtPrevActionDiv_1">
+            <label for="textVersionWrtPrevAction_1">OR</label>
+            <input type="text" class="form-control" id="textVersionWrtPrevAction_1" name="textVersionWrtPrevAction_1" placeholder="datetime">
+            <p class="help-block">Set time wrt previous action</p>
+            <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
+          </div>
+
           <div class="form-group">
-            <label for="template">Select Template</label>
-            <select class="form-control" id="template" name="templateId">
+            <label for="template_1">Select Template</label>
+            <select class="form-control" id="template_1" name="templateId_1">
               <?php require_once 'php/getEmailMsg.php';
                 foreach ($results as $row) {
                   echo "<option value='{$row['id']}'>{$row['templateName']}</option>";
@@ -45,14 +54,29 @@
               ?>
             </select>
           </div>
-          <div class="form-group" id="formActions">
-            <label for=""></label>
-            <button type="button" class="btn btn-info" id="addAction">Add Action</button>
-            <button type="submit" class="btn btn-primary" id="finished">Finish</button>
+          <div id="additionalActions_1">
+            <div class="form-group">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="sendEmail_1" name="sendEmail_1" value="sendEmail" checked> Send email to client
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="sendCopy_1" name="sendCopy_1" value="sendCopy"> Send email copy to me
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="sendReminder_1" name="sendReminder_1" value="sendReminder"> Remind me to do this
+              </label>
+            </div>
+            <div class="form-group" id="reminderTextDiv_1">
+              <label for="reminderText_1">Compose your remider email</label>
+              <textarea class="form-control" rows="13" id="reminderText_1" name="reminderText_1"></textarea>
+            </div>
           </div>
-          <div id="additionalActions">
-            x
-          </div>
+        </div>
+        <div class="form-group" id="formActions">
+          <label for="actions"></label>
+          <a href="#" class="btn btn-info addAction">Add Action</a>
+          <button type="submit" class="btn btn-primary" id="finished">Finish</button>
+        </div>
         </form>
       </div>
     </div>
@@ -62,49 +86,59 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-    $("#addAction").click(function(event) {
-      console.log("Event");
-      $.ajax({
-        url: 'php/tempSession-ajax.php',
-        type: 'POST',
-        dataType: 'json',
-        data: $("#frm").serializeArray()
-      })
-      .done(function() {
-        var templateData;
-        console.log("success");
-        $.ajax({
-          url: 'xform-fields.html',
-          type: 'GET',
-          dataType: 'html'
-        })
-        .done(function(data) {
-          console.log("success", data);
-          templateData = data;
-        })
-        .fail(function() {
-          console.log("error");
-        })
-        .always(function() {
-          console.log("complete");
-        });
-        $("#formActions").remove();   // Delete the form actions Finish and Add Action
-        $("#additionalActions").append("templateData");
-
-        $.get("form-fields.html", function (data) {
-            $("#additionalActions").append(data);
-        });
-
-
-        // location.reload();
-      })
-      .fail(function() {
-        console.log("error");
-      })
-      .always(function() {
-        console.log("complete");
-      });
+  $(document).ready(function() {
+    $("#textVersionWrtPrevActionDiv_1").hide();
+    $("#reminderTextDiv_1").hide();
+  });
+    $("#sendReminder_1").change(function() {
+      $("[id^=reminderTextDiv]").slideToggle('slow');
     });
+    $(".addAction").click(function(event) {
+      var currentCount =  $('.repeatingSection').length;
+      var newCount = currentCount+1;
+      var lastRepeatingGroup = $('.repeatingSection').last();
+      var newSection = lastRepeatingGroup.clone();
+      newSection.insertAfter(lastRepeatingGroup);
+      newSection.find("input").each( function (index, input) {
+        input.id = input.id.replace("_" + currentCount, "_" + newCount);
+        input.name = input.name.replace("_" + currentCount, "_" + newCount);
+      });
+      newSection.find("select").each( function (index, input) {
+        input.id = input.id.replace("_" + currentCount, "_" + newCount);
+        input.name = input.name.replace("_" + currentCount, "_" + newCount);
+      });
+
+      $('*[id*=_'+currentCount+']').each(function() {
+          console.log($(this).attr('id'));
+      });
+
+
+      // newSection.find("#textVersionWrtPrevActionDiv_" + currentCount;
+
+      // $('.repeatingSection').last().find('a').show();
+      // console.log( $("#textVersionWrtPrevActionDiv" + "_" + newCount).show() );
+
+     // Adding counter to delete action button text
+      // $('.repeatingSection').last().find('a').text("Delete Action "+ currentCount)
+      // Adding counter to add action button text
+      // $('a').last().text("Add Action " + (currentCount+1))
+
+      // console.log($('.repeatingSection').last().find('a').text("Delete Action "+ currentCount));
+      // console.log($('.repeatingSection').last());
+      // .last('a').text("Delete Action "+ currentCount)
+      // newSection.find("label").each(function (index, label) {
+      //     var l = $(label);
+      //     l.attr('for', l.attr('for').replace("_" + currentCount, "_" + newCount));
+      // });
+      return false;
+    });
+
+    // Delete a repeating section
+    $(document).on('click','.deleteAction',function(){
+        $(this).parent('div').remove();
+        return false;
+    });
+
   </script>
 </body>
 </html>
