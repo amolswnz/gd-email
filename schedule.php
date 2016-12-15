@@ -39,7 +39,7 @@
           </div>
           <div class="form-group" id="textVersionWrtPrevActionDiv_1">
             <label for="textVersionWrtPrevAction_1">OR</label>
-            <input type="text" class="form-control" id="textVersionWrtPrevAction_1" name="textVersionWrtPrevAction_1" placeholder="datetime">
+             <input type="text" class="form-control" id="textVersionWrtPrevAction_1" name="textVersionWrtPrevAction_1" placeholder="datetime">
             <p class="help-block">Set time wrt previous action</p>
             <p class="help-block">eg. Tomorrow, +2 days, This Sunday, Next Monday, +1 hour</p>
           </div>
@@ -102,15 +102,9 @@
       // Create copy of repeatingFormGroup
       var newSection = repeatingFormGroup.clone();
       // Insert this into the DOM
-      newSection.insertAfter(repeatingFormGroup)
-            .hide().show('slow')
-            ;
+      newSection.insertAfter(repeatingFormGroup).hide().show('slow');
 
-
-            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-
-
-
+      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
 
       // Change the names of each input, select and div so as to distinguish the fields
       newSection.find("input, select, textarea").each( function (index, element) {

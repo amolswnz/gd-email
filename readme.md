@@ -24,5 +24,5 @@
 
 
 #Known bugs
- 1. Remind me to do this checkbox value selected or unselected while cloning the repeatingFormGroup
- 2. ...
+ 1. Remind me textarea state (open/close) is copied while cloning the repeatingFormGroup
+ 2. has-error class is cloned when new action is added

@@ -104,21 +104,25 @@
     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
 
     // Change the names of each input, select and div so as to distinguish the fields
-    newSection.find("input, select, textarea").each( function (index, element) {
+    newSection.find("input, select, textarea, p").each( function (index, element) {
+      console.log('name' in element, "name found", element);
+      console.log('name', element.name);
+      console.log('id' in element, "id found", element);
+      console.log('id', element.id);
+      console.log('value' in element, "value found", element);
+      console.log('value', element.value);
       element.id = element.id.replace("_" + currentCount, "_" + newCount);
-      element.name = element.name.replace("_" + currentCount, "_" + newCount);
-      element.value = '';   // Reset the value of the form field - clone function copies values too
+      console.log('id changed', element.id);
+
     });
 
-    // Reset the value of the form field - clone function copies values too
-    // sendEmail by default needs to be checked
     $("#sendEmail_" + newCount).prop('checked', true);
     $("#sendCopy_" + newCount).prop('checked', false);
     $("#sendReminder_" + newCount).prop('checked', false);
 
     newSection.find("div").each( function (index, element) {
-      element.id = element.id.replace("_" + currentCount, "_" + newCount);
-      $("#"+element.id).removeClass('has-error');
+      // element.id = element.id.replace("_" + currentCount, "_" + newCount);
+
     });
 
     // Show with respect to form field for newCount which is created now
@@ -128,6 +132,14 @@
 
     return false;
   });
+
+  var getKeys = function(obj){
+     var keys = [];
+     for(var key in obj){
+        keys.push(key);
+     }
+     return keys;
+  }
 
   // Delete a section
   $(document).on('click','.deleteAction',function() {
@@ -141,10 +153,8 @@
     $("#reminderTextDiv_" +  thisId).slideToggle('slow');
   });
 
-  // Track input element changed event
-  $(document).on('change','[id^=textVersion]',function() {
-    var currentElement = $(this);
-    currentElement.parent().removeClass('has-error');
+  $("[id^=textVersion]").change(function(event) {
+    console.log($(this).val());
     $.ajax({
       url: 'php/validateDate.php',
       type: 'POST',
@@ -152,12 +162,16 @@
       data: { textDate: $(this).val() }
     })
     .done(function(data) {
-      if(data.error === undefined) {
-        // console.log("success", data.success);
-        currentElement.parent().removeClass('has-error');
-      } else {
-        // console.log("error", data.error);
-        currentElement.parent().addClass('has-error');
+      if(data) {
+        if(data.error === undefined) {
+          console.log("success", data.success);
+        } else {
+          console.log("error", data.error);
+
+        }
+      }
+      else {
+        console.log("Not");
       }
     })
     .fail(function() {
