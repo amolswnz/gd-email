@@ -88,7 +88,6 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-
     $(document).ready(function() {
       // Hiding with respect to div - for first entry it is Not Applicabale
       $("#textVersionWrtPrevActionDiv_1").hide();
@@ -126,13 +125,6 @@
       return false;
     });
 
-    // $(document).on('click', '*', function(event) {
-    //   event.preventDefault();
-    //     $('html, body').animate({
-    //       scrollTop: $(this).offset().top
-    //   }, 2000);
-    // });
-
     // Delete a section
     $(document).on('click','.deleteAction',function() {
         $(this).parent('div').remove();
@@ -143,7 +135,7 @@
     $(document).on('click','[id^=sendReminder]',function() {
       var thisId = $(this).attr('id').match(/\d+$/)[0];
       $("#reminderTextDiv_" +  thisId).slideToggle('slow');
-      $("html, body").animate({ scrollTop: $(this).height() }, "slow");
+      // $("html, body").animate({ scrollTop: $(this).height() }, "slow");
     });
   </script>
 </body>
