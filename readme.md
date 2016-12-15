@@ -6,10 +6,12 @@
     * Logo upload
     * Email signature
  2. Unsubscribe
+ 3. ...
 
 
 #UI Improvements
  1. Admin template
+ 2. ...
 
 
 #UX Improvements
@@ -17,10 +19,10 @@
  2. Only one should be selected
  3. Show date and time selected
  4. Preview template selected
- 5. Remind me - WYSIWYG editor required (?)
- 6.
+ 5. Checkbox Remind me - WYSIWYG editor required (?)
+ 6. ...
 
 
 #Known bugs
  1. Remind me to do this checkbox value selected or unselected while cloning the repeatingFormGroup
- 2. The 
+ 2. ...
