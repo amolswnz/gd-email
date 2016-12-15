@@ -86,40 +86,25 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-  $(document).ready(function() {
-    $("#textVersionWrtPrevActionDiv_1").hide();
-    $("#reminderTextDiv_1").hide();
-  });
-    //
-    // $("form").submit(function(event) {
-    //   event.preventDefault();
-    //   $.ajax({
-    //     url: 'php/x.php',
-    //     type: 'POST',
-    //     dataType: 'json',
-    //     data: $("form").serializeArray()
-    //   })
-    //   .done(function() {
-    //     console.log("success");
-    //   })
-    //   .fail(function() {
-    //     console.log("error");
-    //   })
-    //   .always(function() {
-    //     console.log("complete");
-    //   });
-    //
-    // });
-    //
-    //
+
+    $(document).ready(function() {
+      // Hiding with respect to div - for first entry it is Not Applicabale
+      $("#textVersionWrtPrevActionDiv_1").hide();
+      // Initially reminder textarea div is hidden unless clicked on remind me checkbox
+      $("#reminderTextDiv_1").hide();
+    });
+
+    // Create new set of form inputs, if additional action is added
     $(".addAction").click(function(event) {
       var currentCount =  $('.repeatingSection').length;
       var newCount = currentCount+1;
-      var lastRepeatingGroup = $('.repeatingSection').last();
-      var newSection = lastRepeatingGroup.clone();
+      var repeatingFormGroup = $('.repeatingSection').last();
+      // Create copy of repeatingFormGroup
+      var newSection = repeatingFormGroup.clone();
+      // Insert this into the DOM
+      newSection.insertAfter(repeatingFormGroup);
 
-      newSection.insertAfter(lastRepeatingGroup);
-
+      // Change the names of each input, select and div so as to distinguish the fields
       newSection.find("input").each( function (index, input) {
         input.id = input.id.replace("_" + currentCount, "_" + newCount);
         input.name = input.name.replace("_" + currentCount, "_" + newCount);
@@ -132,57 +117,22 @@
         input.id = input.id.replace("_" + currentCount, "_" + newCount);
       });
 
-          // newSection.find("*").each( function(index, element) {
-          //   console.log(element);
-          // });
-
-      // $('*[id*=_'+currentCount+']').each(function() {
-      //     thisId = $(this).attr('id');
-      //     newId = thisId.replace("_" + currentCount, "_" + newCount);
-      //     console.log(newId);
-      //     // console.log($(this).attr('id'));
-      //     $(this).attr('id', newId);
-      // });
-      // $('*[name*=_'+currentCount+']').each(function() {
-      //     thisId = $(this).attr('name');
-      //     newId = thisId.replace("_" + currentCount, "_" + newCount);
-      //     console.log(newId);
-      //     // console.log($(this).attr('id'));
-      //     $(this).attr('name', newId);
-      // });
-      v  = "#textVersionWrtPrevActionDiv_" + newCount;
-      console.log(v, $(v));
-      $(v).show();
+      // Show with respect to form field for newCount which is created now
+      $("#textVersionWrtPrevActionDiv_" + newCount).show();
+      // Show delete button
       $(".deleteAction").show();
-      // newSection.find("#textVersionWrtPrevActionDiv_" + currentCount;
-
-      // $('.repeatingSection').last().find('a').show();
-      // console.log( $("#textVersionWrtPrevActionDiv" + "_" + newCount).show() );
-
-     // Adding counter to delete action button text
-      // $('.repeatingSection').last().find('a').text("Delete Action "+ currentCount)
-      // Adding counter to add action button text
-      // $('a').last().text("Add Action " + (currentCount+1))
-
-      // console.log($('.repeatingSection').last().find('a').text("Delete Action "+ currentCount));
-      // console.log($('.repeatingSection').last());
-      // .last('a').text("Delete Action "+ currentCount)
-      // newSection.find("label").each(function (index, label) {
-      //     var l = $(label);
-      //     l.attr('for', l.attr('for').replace("_" + currentCount, "_" + newCount));
-      // });
       return false;
     });
 
     // Delete a section
-    $(document).on('click','.deleteAction',function(){
+    $(document).on('click','.deleteAction',function() {
         $(this).parent('div').remove();
         return false;
     });
 
-    $(document).on('click','[id^=sendReminder]',function(){
-      var thisId = $(this).attr('id').match(/\d+$/)[0]
-      console.log( thisId );
+    // Remind me textarea show
+    $(document).on('click','[id^=sendReminder]',function() {
+      var thisId = $(this).attr('id').match(/\d+$/)[0];
       $("#reminderTextDiv_" +  thisId).slideToggle('slow');
     });
   </script>
