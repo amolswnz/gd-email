@@ -48,12 +48,17 @@
         <div class="form-group">
           <label for="template_1">Select Template</label>
           <select class="form-control" id="template_1" name="templateId_1">
+            <option disabled selected value>- Please select one -</option>
             <?php require_once 'php/getEmailMsg.php';
               foreach ($results as $row) {
                   echo "<option value='{$row['id']}'>{$row['templateName']}</option>";
               }
             ?>
           </select>
+        </div>
+        <div class="" id="templatePreview_1">
+          <h4 id="subject_1"></h1>
+          <p id="msgBody_1"></p>
         </div>
         <div id="additionalActions_1">
           <div class="form-group">
@@ -139,9 +144,35 @@
   $(document).on('click','[id^=sendReminder]',function() {
     var thisId = $(this).attr('id').match(/\d+$/)[0];
     $("#reminderTextDiv_" +  thisId).slideToggle('slow');
+    // When remind me is checked, send to client is unchecked1
+    $("#sendEmail_" + thisId).prop('checked', false);
   });
 
-  // Track input element changed event
+  // Show template preview
+  $(document).on('change','[id^=template]',function() {
+    var thisId = $(this).attr('id').match(/\d+$/)[0];
+    console.log($(this).val());
+    $.ajax({
+      url: 'php/getTemplate.php',
+      type: 'POST',
+      dataType: 'json',
+      data: { id: $(this).val() }
+    })
+    .done(function(data) {
+      console.log("success",data.subject);
+      $("#subject_" + thisId).html(data.subject);
+      $("#msgBody_" + thisId).html((data.msgBody).substring(0,100));
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      console.log("complete");
+    });
+
+  });
+
+  // Track text date element changed event and display errors if any
   $(document).on('change','[id^=textVersion]',function() {
     var currentElement = $(this);
     currentElement.parent().removeClass('has-error');
@@ -166,7 +197,6 @@
     .always(function() {
       console.log("complete");
     });
-
   });
 </script>
 </body>

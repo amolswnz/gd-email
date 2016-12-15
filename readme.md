@@ -6,7 +6,7 @@
     * Logo upload
     * Email signature
  2. Unsubscribe
- 3. ...
+ 3. Showing email preview with edit option (new window)
 
 
 #UI Improvements

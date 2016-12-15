@@ -24,7 +24,7 @@
             <br>
             <input type="text" class="form-control" name="subject" maxlength="40" placeholder="Email subject">
             <br>
-            <textarea class="form-control" rows="13" name="msgBody"></textarea>
+            <textarea class="form-control" minlength="200" rows="13" name="msgBody"></textarea>
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
