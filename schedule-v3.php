@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-sm-6">
       <h1>Schedule email timeframe</h1>
-      <form class="form-horizontal" action="php/xschedule-email.php" method="post" id="frm">
+      <form class="form-horizontal" action="php/scheduleAll.php" method="post" id="frm">
         <div class="form-group">
           <label for="title"></label>
           <input type="text" class="form-control" id="title" name="title" placeholder="Schedule title">
@@ -56,20 +56,21 @@
             ?>
           </select>
         </div>
+        <h4>Preview</h4>
         <div class="" id="templatePreview_1">
-          <h4 id="subject_1"></h1>
+          <h5 id="subject_1"></h5>
           <p id="msgBody_1"></p>
         </div>
         <div id="additionalActions_1">
           <div class="form-group">
             <label class="checkbox-inline">
-              <input type="checkbox" id="sendEmail_1" name="sendEmail_1" value="sendEmail" checked> Send email to client
+              <input type="checkbox" id="sendEmail_1" name="sendEmail_1" value="true" checked> Send email to client
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" id="sendCopy_1" name="sendCopy_1" value="sendCopy"> Send email copy to me
+              <input type="checkbox" id="sendCopy_1" name="sendCopy_1" value="true"> Send email copy to me
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" id="sendReminder_1" name="sendReminder_1" value="sendReminder"> Remind me to do this
+              <input type="checkbox" id="sendReminder_1" name="sendReminder_1" value="true"> Remind me to do this
             </label>
           </div>
           <div class="form-group" id="reminderTextDiv_1">
@@ -126,6 +127,10 @@
     $("#sendEmail_" + newCount).prop('checked', true);
     $("#sendCopy_" + newCount).prop('checked', false);
     $("#sendReminder_" + newCount).prop('checked', false);
+
+    // Clears any generate template preview
+    $("#subject_" + newCount).html('');
+    $("#msgBody_" + newCount).html('');
 
     // Show with respect to form field for newCount which is created now
     $("#textVersionWrtPrevActionDiv_" + newCount).show();
@@ -185,10 +190,8 @@
     })
     .done(function(data) {
       if(data.error === undefined) {
-        // console.log("success", data.success);
         currentElement.parent().removeClass('has-error');
       } else {
-        // console.log("error", data.error);
         currentElement.parent().addClass('has-error');
       }
     })

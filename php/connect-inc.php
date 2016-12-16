@@ -24,4 +24,4 @@ function placeholders($dataArray) {
         $result[] = "?";
     }
     return implode(",", $result);
-}
+} 

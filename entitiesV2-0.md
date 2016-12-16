@@ -27,9 +27,11 @@ EmailMsgContactSchedule
   scheduleId
 Schedule
   id
+  scheduleTitle
   emailMsgId
-  title
   curlString
+  specifiedDateTime
+  additionalParam
   status - "Active" / "Inactive"
   dateCreated
   dateUpdated
